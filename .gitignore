@@ -1,0 +1,19 @@
+# Xcode
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Large media files
+*.aivu
+*.braw
+*.mov
+*.mp4
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride

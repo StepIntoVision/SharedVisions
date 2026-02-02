@@ -1,0 +1,34 @@
+name: SharedVisions
+options:
+  bundleIdPrefix: com.shellcorp
+  deploymentTarget:
+    visionOS: "2.0"
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: 9YZ66NTGZG
+    SWIFT_VERSION: "6.0"
+    GENERATE_INFOPLIST_FILE: YES
+    PRODUCT_NAME: SharedVisions
+
+targets:
+  SharedVisions:
+    type: application
+    platform: visionOS
+    sources:
+      - Sources
+    resources:
+      - path: Resources
+        excludes:
+          - "*.braw"
+    settings:
+      base:
+        INFOPLIST_KEY_CFBundleDisplayName: "Shared Visions"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.shellcorp.sharedvisions
+    entitlements:
+      path: Resources/SharedVisions.entitlements
+      properties:
+        com.apple.developer.spatial-persona.allow-mixed-participants: true
