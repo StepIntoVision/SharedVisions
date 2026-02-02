@@ -12,7 +12,7 @@ struct SharedVisionsApp: App {
                 .environmentObject(videoModel)
         }
         .windowStyle(.plain)
-        .defaultSize(CGSize(width: 600, height: 400))
+        .defaultSize(CGSize(width: 900, height: 500))
         
         // Timecode overlay window
         WindowGroup(id: "timecode") {

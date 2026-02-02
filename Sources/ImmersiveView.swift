@@ -1,6 +1,7 @@
 import SwiftUI
 import RealityKit
 import AVFoundation
+import UIKit
 
 struct ImmersiveView: View {
     @EnvironmentObject var videoModel: VideoPlayerModel
@@ -71,21 +72,31 @@ struct ImmersiveView: View {
     }
     
     private func createRedOrb() -> ModelEntity {
-        // Create a glowing red sphere
+        // Create a 3D metallic red sphere
         let orbMesh = MeshResource.generateSphere(radius: 0.15)
         
-        // Create emissive red material
+        // Create metallic red material
         var material = PhysicallyBasedMaterial()
-        material.baseColor = .init(tint: .red)
-        material.emissiveColor = .init(color: .init(red: 1, green: 0.2, blue: 0.1, alpha: 1))
-        material.emissiveIntensity = 2.0
+        material.baseColor = .init(tint: UIColor(red: 0.8, green: 0.1, blue: 0.1, alpha: 1.0))
+        material.metallic = .init(floatLiteral: 1.0)
+        material.roughness = .init(floatLiteral: 0.2)
+        material.emissiveColor = .init(color: .init(red: 0.5, green: 0.05, blue: 0.05, alpha: 1))
+        material.emissiveIntensity = 0.5
         
         let orb = ModelEntity(mesh: orbMesh, materials: [material])
         orb.name = "RedOrb"
         orb.scale = SIMD3<Float>(repeating: 0.3)
         
+        // Add some visual interest with a slight rotation component
+        orb.components.set(SpinComponent())
+        
         return orb
     }
+}
+
+// Component to make the orb spin
+struct SpinComponent: Component {
+    var speed: Float = 1.0
 }
 
 #Preview(immersionStyle: .full) {
