@@ -54,6 +54,7 @@ struct ImmersiveView: View {
                     let pulse = 1.0 + 0.1 * sin(Float(videoModel.currentTime) * 3)
                     orb.scale = SIMD3<Float>(repeating: pulse * 0.3)
                 }
+                updateParticleEmission(for: orb, isPlaying: videoModel.isPlaying && videoModel.showOrb)
             }
             
             // Update Blue Cube (20-30s): spins + orbits around user
@@ -69,6 +70,7 @@ struct ImmersiveView: View {
                     cube.position = SIMD3<Float>(x, y, z)
                     cube.orientation = simd_quatf(angle: angle * 2, axis: SIMD3<Float>(1, 1, 0).normalized)
                 }
+                updateParticleEmission(for: cube, isPlaying: videoModel.isPlaying && videoModel.showCube)
             }
             
             // Update Green Torus (30-40s): pulses + bounces
@@ -82,6 +84,7 @@ struct ImmersiveView: View {
                     torus.scale = SIMD3<Float>(repeating: pulseScale)
                     torus.orientation = simd_quatf(angle: progress * .pi * 4, axis: [0, 1, 0])
                 }
+                updateParticleEmission(for: torus, isPlaying: videoModel.isPlaying && videoModel.showTorus)
             }
             
             // Update Purple Pyramid (40-50s): rotates + spirals inward
@@ -97,6 +100,7 @@ struct ImmersiveView: View {
                     pyramid.position = SIMD3<Float>(x, y, z)
                     pyramid.orientation = simd_quatf(angle: progress * .pi * 8, axis: SIMD3<Float>(0, 1, 1).normalized)
                 }
+                updateParticleEmission(for: pyramid, isPlaying: videoModel.isPlaying && videoModel.showPyramid)
             }
         }
         .onAppear {
@@ -310,6 +314,18 @@ struct ImmersiveView: View {
         container.addChild(particleEntity)
         
         return container
+    }
+    
+    // MARK: - Particle Control
+    
+    private func updateParticleEmission(for entity: Entity, isPlaying: Bool) {
+        // Find particle emitter in children and pause/resume
+        for child in entity.children {
+            if var particles = child.components[ParticleEmitterComponent.self] {
+                particles.isEmitting = isPlaying
+                child.components[ParticleEmitterComponent.self] = particles
+            }
+        }
     }
 }
 

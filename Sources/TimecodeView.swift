@@ -10,6 +10,26 @@ struct TimecodeView: View {
                 .font(.system(size: 32, weight: .bold, design: .monospaced))
                 .foregroundStyle(.white)
             
+            // Play/Pause button
+            Button {
+                if videoModel.isPlaying {
+                    videoModel.pause()
+                } else {
+                    videoModel.play()
+                }
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: videoModel.isPlaying ? "pause.fill" : "play.fill")
+                        .font(.title2)
+                    Text(videoModel.isPlaying ? "Pause" : "Play")
+                        .font(.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(videoModel.isPlaying ? .orange : .green)
+            
             // Progress bar
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
@@ -40,15 +60,15 @@ struct TimecodeView: View {
             .font(.caption)
             .foregroundStyle(.white.opacity(0.7))
             
-            // Orb indicator
-            if videoModel.showOrb {
+            // Active primitive indicator
+            if let activePrimitive = activePrimitiveInfo {
                 HStack {
                     Circle()
-                        .fill(.red)
+                        .fill(activePrimitive.color)
                         .frame(width: 8, height: 8)
-                    Text("Orb Active")
+                    Text(activePrimitive.name)
                         .font(.caption)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(activePrimitive.color)
                 }
             }
         }
@@ -62,6 +82,19 @@ struct TimecodeView: View {
                         .stroke(.white.opacity(0.2), lineWidth: 1)
                 )
         )
+    }
+    
+    private var activePrimitiveInfo: (name: String, color: Color)? {
+        if videoModel.showOrb {
+            return ("Red Orb", .red)
+        } else if videoModel.showCube {
+            return ("Blue Cube", .blue)
+        } else if videoModel.showTorus {
+            return ("Green Torus", .green)
+        } else if videoModel.showPyramid {
+            return ("Purple Pyramid", .purple)
+        }
+        return nil
     }
 }
 
