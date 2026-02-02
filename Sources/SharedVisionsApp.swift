@@ -20,7 +20,7 @@ struct SharedVisionsApp: App {
                 .environmentObject(videoModel)
         }
         .windowStyle(.plain)
-        .defaultSize(CGSize(width: 300, height: 100))
+        .defaultSize(CGSize(width: 300, height: 140))
         
         // Immersive video space
         ImmersiveSpace(id: "ImmersiveVideo") {
