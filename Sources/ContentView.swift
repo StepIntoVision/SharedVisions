@@ -8,6 +8,7 @@ struct ContentView: View {
     @Environment(\.dismissWindow) var dismissWindow
     
     @State private var isImmersed = false
+    @State private var hasAutoLaunched = false
     
     var body: some View {
         VStack(spacing: 30) {
@@ -131,6 +132,18 @@ struct ContentView: View {
         .padding(30)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.ultraThinMaterial)
+        .onAppear {
+            // Auto-launch immersive mode for testing
+            if !hasAutoLaunched {
+                hasAutoLaunched = true
+                Task {
+                    try? await Task.sleep(for: .seconds(1))
+                    await openImmersiveSpace(id: "ImmersiveVideo")
+                    openWindow(id: "timecode")
+                    isImmersed = true
+                }
+            }
+        }
     }
 }
 

@@ -18,8 +18,9 @@ targets:
     platform: visionOS
     sources:
       - Sources
-    resources:
-      - path: Resources
+      - path: Resources/test.aivu
+        type: file
+        buildPhase: resources
     settings:
       base:
         INFOPLIST_KEY_CFBundleDisplayName: "Shared Visions"

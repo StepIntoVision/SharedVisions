@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22288FDBCD4C643C8A4A3757 /* test.aivu in Resources */ = {isa = PBXBuildFile; fileRef = 81F83617F3743D184C83FF6A /* test.aivu */; };
 		22DB907645AFF2E04006F959 /* TimecodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448DF9E3062A8EF46889DE62 /* TimecodeView.swift */; };
 		29F4528E237E115BC127175D /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9465D5054CC9FFBB7E074B /* ImmersiveView.swift */; };
 		3CC3B397EDDEE45C5CCE246B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6417179DBFAD3EFA6640E8 /* ContentView.swift */; };
@@ -18,12 +19,21 @@
 		08614FCDAD3E5917F0FA76B9 /* SharedVisions.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SharedVisions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E6417179DBFAD3EFA6640E8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		448DF9E3062A8EF46889DE62 /* TimecodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimecodeView.swift; sourceTree = "<group>"; };
+		81F83617F3743D184C83FF6A /* test.aivu */ = {isa = PBXFileReference; path = test.aivu; sourceTree = "<group>"; };
 		866C1AC5BE4FC25AFBE5725C /* SharedVisionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedVisionsApp.swift; sourceTree = "<group>"; };
 		BC9465D5054CC9FFBB7E074B /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
 		EB000A1C7360330BB74F74A9 /* VideoPlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		404DEB5D1E4DFAC5866D262F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				81F83617F3743D184C83FF6A /* test.aivu */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		4AEECFFE536C1F8539AE4700 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -39,6 +49,7 @@
 		6489F73186A08CACD8F7A28A = {
 			isa = PBXGroup;
 			children = (
+				404DEB5D1E4DFAC5866D262F /* Resources */,
 				4AEECFFE536C1F8539AE4700 /* Sources */,
 				94FE5CBE10E7C8EFD9D27558 /* Products */,
 			);
@@ -60,6 +71,7 @@
 			buildConfigurationList = 018F45C0151060718559F789 /* Build configuration list for PBXNativeTarget "SharedVisions" */;
 			buildPhases = (
 				AFBFE8F0292D64F78B425D10 /* Sources */,
+				ABD5084FA4E073395BCC66BC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -104,6 +116,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ABD5084FA4E073395BCC66BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22288FDBCD4C643C8A4A3757 /* test.aivu in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AFBFE8F0292D64F78B425D10 /* Sources */ = {
