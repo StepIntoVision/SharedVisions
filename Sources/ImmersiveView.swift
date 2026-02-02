@@ -29,11 +29,15 @@ struct ImmersiveView: View {
                 
                 if videoModel.showOrb {
                     // Start at y = -0.5, move up to y = 1.5 over 10 seconds
-                    // Position in front of user at z = -3
+                    // Also move from z = -3 towards z = -1 (closer to user)
                     let startY: Float = -0.5
                     let endY: Float = 1.5
-                    let currentY = startY + Float(videoModel.orbProgress) * (endY - startY)
-                    orb.position = SIMD3<Float>(0, currentY, -3)
+                    let startZ: Float = -3.0
+                    let endZ: Float = -1.0
+                    let progress = Float(videoModel.orbProgress)
+                    let currentY = startY + progress * (endY - startY)
+                    let currentZ = startZ + progress * (endZ - startZ)
+                    orb.position = SIMD3<Float>(0, currentY, currentZ)
                     
                     // Also pulse the orb slightly
                     let pulse = 1.0 + 0.1 * sin(Float(videoModel.currentTime) * 3)
