@@ -96,6 +96,7 @@ struct ContentView: View {
                     } else {
                         await openImmersiveSpace(id: "ImmersiveVideo")
                         openWindow(id: "timecode")
+                        dismissWindow(id: "main")
                         isImmersed = true
                     }
                 }

@@ -2,6 +2,9 @@ import SwiftUI
 
 struct TimecodeView: View {
     @EnvironmentObject var videoModel: VideoPlayerModel
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+    @Environment(\.dismissWindow) var dismissWindow
+    @Environment(\.openWindow) var openWindow
     
     var body: some View {
         VStack(spacing: 12) {
@@ -71,6 +74,31 @@ struct TimecodeView: View {
                         .foregroundStyle(activePrimitive.color)
                 }
             }
+            
+            Divider()
+                .background(.white.opacity(0.3))
+            
+            // Exit button
+            Button {
+                Task {
+                    videoModel.pause()
+                    videoModel.seek(to: 0)
+                    await dismissImmersiveSpace()
+                    dismissWindow(id: "timecode")
+                    openWindow(id: "main")
+                }
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title3)
+                    Text("Exit Experience")
+                        .font(.subheadline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
         }
         .padding(20)
         .frame(minWidth: 280)
