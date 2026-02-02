@@ -10,24 +10,27 @@ class VideoPlayerModel: ObservableObject {
     @Published var isLoaded: Bool = false
     
     // Animated primitives state (each visible for 10 seconds)
-    // Orb: 10-20s, Cube: 20-30s, Torus: 30-40s, Pyramid: 40-50s
+    // Orb: 10-20s, Cube: 20-30s, Cylinder: 30-40s, Cone: 40-50s
     @Published var showOrb: Bool = false
     @Published var orbProgress: Double = 0
     
     @Published var showCube: Bool = false
     @Published var cubeProgress: Double = 0
     
-    @Published var showTorus: Bool = false
-    @Published var torusProgress: Double = 0
+    @Published var showCylinder: Bool = false
+    @Published var cylinderProgress: Double = 0
     
-    @Published var showPyramid: Bool = false
-    @Published var pyramidProgress: Double = 0
+    @Published var showCone: Bool = false
+    @Published var coneProgress: Double = 0
     
-    // EXAMPLE: Multi-phase animation states for pyramid
+    // EXAMPLE: Multi-phase animation states for cone
     // This demonstrates how to chain: Animation → Hold → Secondary Animation
-    @Published var pyramidHolding: Bool = false
-    @Published var pyramidSecondaryAnimation: Bool = false
-    @Published var pyramidSecondaryProgress: Double = 0
+    @Published var coneHolding: Bool = false
+    @Published var coneSecondaryAnimation: Bool = false
+    @Published var coneSecondaryProgress: Double = 0
+    
+    // Exit experience trigger (observed by App to dismiss windows)
+    @Published var shouldExitExperience: Bool = false
     
     private(set) var player: AVPlayer?
     private var timeObserver: Any?
@@ -135,16 +138,16 @@ class VideoPlayerModel: ObservableObject {
             cubeProgress = 0
         }
         
-        // Torus: 30-40 seconds (green, pulses + bounces)
+        // Cylinder: 30-40 seconds (green, pulses + bounces)
         if time >= 30 && time < 40 {
-            showTorus = true
-            torusProgress = (time - 30) / 10.0
+            showCylinder = true
+            cylinderProgress = (time - 30) / 10.0
         } else {
-            showTorus = false
-            torusProgress = 0
+            showCylinder = false
+            cylinderProgress = 0
         }
         
-        // Pyramid: Multi-phase animation example
+        // Cone: Multi-phase animation example
         // ─────────────────────────────────────────────────────────────────
         // EXAMPLE: Chained Animation Phases
         // 
@@ -164,31 +167,31 @@ class VideoPlayerModel: ObservableObject {
         // ─────────────────────────────────────────────────────────────────
         if time >= 40 && time < 50 {
             // Phase 1: Primary animation (spiral inward)
-            showPyramid = true
-            pyramidHolding = false
-            pyramidSecondaryAnimation = false
-            pyramidProgress = (time - 40) / 10.0
-            pyramidSecondaryProgress = 0
+            showCone = true
+            coneHolding = false
+            coneSecondaryAnimation = false
+            coneProgress = (time - 40) / 10.0
+            coneSecondaryProgress = 0
         } else if time >= 50 && time < 60 {
             // Phase 2: Hold at final position
-            showPyramid = true
-            pyramidHolding = true
-            pyramidSecondaryAnimation = false
-            pyramidProgress = 1.0
-            pyramidSecondaryProgress = 0
+            showCone = true
+            coneHolding = true
+            coneSecondaryAnimation = false
+            coneProgress = 1.0
+            coneSecondaryProgress = 0
         } else if time >= 60 && time < 70 {
             // Phase 3: Secondary animation (X-axis rotation)
-            showPyramid = true
-            pyramidHolding = false
-            pyramidSecondaryAnimation = true
-            pyramidProgress = 1.0  // Keep at final primary position
-            pyramidSecondaryProgress = (time - 60) / 10.0
+            showCone = true
+            coneHolding = false
+            coneSecondaryAnimation = true
+            coneProgress = 1.0  // Keep at final primary position
+            coneSecondaryProgress = (time - 60) / 10.0
         } else {
-            showPyramid = false
-            pyramidHolding = false
-            pyramidSecondaryAnimation = false
-            pyramidProgress = 0
-            pyramidSecondaryProgress = 0
+            showCone = false
+            coneHolding = false
+            coneSecondaryAnimation = false
+            coneProgress = 0
+            coneSecondaryProgress = 0
         }
     }
     

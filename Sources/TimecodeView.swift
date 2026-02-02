@@ -3,8 +3,6 @@ import SwiftUI
 struct TimecodeView: View {
     @EnvironmentObject var videoModel: VideoPlayerModel
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
-    @Environment(\.dismissWindow) var dismissWindow
-    @Environment(\.openWindow) var openWindow
     
     var body: some View {
         VStack(spacing: 12) {
@@ -84,10 +82,8 @@ struct TimecodeView: View {
                     videoModel.pause()
                     videoModel.seek(to: 0)
                     await dismissImmersiveSpace()
-                    openWindow(id: "main")
-                    // Small delay before dismissing self to ensure main window opens first
-                    try? await Task.sleep(for: .milliseconds(100))
-                    dismissWindow(id: "timecode")
+                    // Signal the app to handle window transitions
+                    videoModel.shouldExitExperience = true
                 }
             } label: {
                 HStack(spacing: 8) {
@@ -103,7 +99,7 @@ struct TimecodeView: View {
             .tint(.red)
         }
         .padding(20)
-        .frame(minWidth: 280)
+        .frame(minWidth: 280, minHeight: 270)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(.black.opacity(0.7))
@@ -119,16 +115,16 @@ struct TimecodeView: View {
             return ("Red Orb", .red)
         } else if videoModel.showCube {
             return ("Blue Cube", .blue)
-        } else if videoModel.showTorus {
-            return ("Green Torus", .green)
-        } else if videoModel.showPyramid {
+        } else if videoModel.showCylinder {
+            return ("Green Cylinder", .green)
+        } else if videoModel.showCone {
             // Show different label for each phase
-            if videoModel.pyramidSecondaryAnimation {
-                return ("Purple Pyramid (X-Rotate)", .purple)
-            } else if videoModel.pyramidHolding {
-                return ("Purple Pyramid (Hold)", .purple)
+            if videoModel.coneSecondaryAnimation {
+                return ("Purple Cone (X-Rotate)", .purple)
+            } else if videoModel.coneHolding {
+                return ("Purple Cone (Hold)", .purple)
             }
-            return ("Purple Pyramid", .purple)
+            return ("Purple Cone", .purple)
         }
         return nil
     }

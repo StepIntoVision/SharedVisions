@@ -10,8 +10,8 @@ struct ImmersiveView: View {
     // Animated primitives
     @State private var orbEntity: Entity?
     @State private var cubeEntity: Entity?
-    @State private var torusEntity: Entity?
-    @State private var pyramidEntity: Entity?
+    @State private var cylinderEntity: Entity?
+    @State private var coneEntity: Entity?
     
     var body: some View {
         RealityView { content in
@@ -32,15 +32,15 @@ struct ImmersiveView: View {
             cubeEntity = cube
             content.add(cube)
             
-            let torus = createGreenTorus()
-            torus.isEnabled = false
-            torusEntity = torus
-            content.add(torus)
+            let cylinder = createGreenCylinder()
+            cylinder.isEnabled = false
+            cylinderEntity = cylinder
+            content.add(cylinder)
             
-            let pyramid = createPurplePyramid()
-            pyramid.isEnabled = false
-            pyramidEntity = pyramid
-            content.add(pyramid)
+            let cone = createPurpleCone()
+            cone.isEnabled = false
+            coneEntity = cone
+            content.add(cone)
             
         } update: { content in
             // Update Red Orb (10-20s): rises + approaches
@@ -73,21 +73,21 @@ struct ImmersiveView: View {
                 updateParticleEmission(for: cube, isPlaying: videoModel.isPlaying && videoModel.showCube)
             }
             
-            // Update Green Torus (30-40s): pulses + bounces
-            if let torus = torusEntity {
-                torus.isEnabled = videoModel.showTorus
-                if videoModel.showTorus {
-                    let progress = Float(videoModel.torusProgress)
+            // Update Green Cylinder (30-40s): pulses + bounces
+            if let cylinder = cylinderEntity {
+                cylinder.isEnabled = videoModel.showCylinder
+                if videoModel.showCylinder {
+                    let progress = Float(videoModel.cylinderProgress)
                     let bounceY = abs(sin(progress * .pi * 5)) * 1.5  // bouncing
-                    torus.position = SIMD3<Float>(0, bounceY, -2.5)
+                    cylinder.position = SIMD3<Float>(0, bounceY, -2.5)
                     let pulseScale = 0.4 + 0.15 * sin(progress * .pi * 8)
-                    torus.scale = SIMD3<Float>(repeating: pulseScale)
-                    torus.orientation = simd_quatf(angle: progress * .pi * 4, axis: [0, 1, 0])
+                    cylinder.scale = SIMD3<Float>(repeating: pulseScale)
+                    cylinder.orientation = simd_quatf(angle: progress * .pi * 4, axis: [0, 1, 0])
                 }
-                updateParticleEmission(for: torus, isPlaying: videoModel.isPlaying && videoModel.showTorus)
+                updateParticleEmission(for: cylinder, isPlaying: videoModel.isPlaying && videoModel.showCylinder)
             }
             
-            // Update Purple Pyramid - Multi-phase animation example
+            // Update Purple Cone - Multi-phase animation example
             // ─────────────────────────────────────────────────────────────────
             // EXAMPLE: Chained Animation Phases
             //
@@ -101,34 +101,34 @@ struct ImmersiveView: View {
             //   - Different animation curves/easing
             //   - Different particle behaviors
             //
-            // The position is calculated from pyramidProgress (phase 1),
-            // then orientation is modified by pyramidSecondaryProgress (phase 3).
+            // The position is calculated from coneProgress (phase 1),
+            // then orientation is modified by coneSecondaryProgress (phase 3).
             // ─────────────────────────────────────────────────────────────────
-            if let pyramid = pyramidEntity {
-                pyramid.isEnabled = videoModel.showPyramid
-                if videoModel.showPyramid {
+            if let cone = coneEntity {
+                cone.isEnabled = videoModel.showCone
+                if videoModel.showCone {
                     // Phase 1 position: spiral inward (locked at final during phases 2 & 3)
-                    let progress = Float(videoModel.pyramidProgress)
+                    let progress = Float(videoModel.coneProgress)
                     let spiralAngle = progress * .pi * 6  // 3 rotations
                     let radius = 3.0 - progress * 2.5  // spiral in from 3 to 0.5
                     let x = sin(spiralAngle) * radius
                     let z = -cos(spiralAngle) * radius
                     let y = 0.5 + progress * 1.0  // rise slightly
-                    pyramid.position = SIMD3<Float>(x, y, z)
+                    cone.position = SIMD3<Float>(x, y, z)
                     
                     // Calculate orientation based on current phase
-                    if videoModel.pyramidSecondaryAnimation {
+                    if videoModel.coneSecondaryAnimation {
                         // Phase 3: Rotate around X axis while maintaining Y position
                         // This creates a "tumbling forward" effect
-                        let secondaryProgress = Float(videoModel.pyramidSecondaryProgress)
+                        let secondaryProgress = Float(videoModel.coneSecondaryProgress)
                         let xRotation = secondaryProgress * .pi * 4  // 2 full rotations around X
-                        pyramid.orientation = simd_quatf(angle: xRotation, axis: SIMD3<Float>(1, 0, 0))
+                        cone.orientation = simd_quatf(angle: xRotation, axis: SIMD3<Float>(1, 0, 0))
                     } else {
                         // Phase 1 & 2: Original spiral rotation
-                        pyramid.orientation = simd_quatf(angle: progress * .pi * 8, axis: SIMD3<Float>(0, 1, 1).normalized)
+                        cone.orientation = simd_quatf(angle: progress * .pi * 8, axis: SIMD3<Float>(0, 1, 1).normalized)
                     }
                 }
-                updateParticleEmission(for: pyramid, isPlaying: videoModel.isPlaying && videoModel.showPyramid)
+                updateParticleEmission(for: cone, isPlaying: videoModel.isPlaying && videoModel.showCone)
             }
         }
         .onAppear {
@@ -242,14 +242,14 @@ struct ImmersiveView: View {
         return container
     }
     
-    // MARK: - Green Torus (30-40s) - Spiral particles
+    // MARK: - Green Cylinder (30-40s) - Spiral particles
     
-    private func createGreenTorus() -> Entity {
+    private func createGreenCylinder() -> Entity {
         let container = Entity()
-        container.name = "GreenTorus"
+        container.name = "GreenCylinder"
         
-        // Glowing green torus
-        let torusMesh = MeshResource.generateSphere(radius: 0.2) // Using sphere as torus approximation
+        // Glowing green cylinder
+        let cylinderMesh = MeshResource.generateCylinder(height: 0.3, radius: 0.15)
         var material = PhysicallyBasedMaterial()
         material.baseColor = .init(tint: UIColor(red: 0.1, green: 0.8, blue: 0.3, alpha: 1.0))
         material.metallic = .init(floatLiteral: 0.7)
@@ -257,9 +257,8 @@ struct ImmersiveView: View {
         material.emissiveColor = .init(color: .init(red: 0.2, green: 1.0, blue: 0.4, alpha: 1))
         material.emissiveIntensity = 1.0
         
-        let torus = ModelEntity(mesh: torusMesh, materials: [material])
-        torus.scale = SIMD3<Float>(1.5, 0.5, 1.5) // Flatten to torus-like shape
-        container.addChild(torus)
+        let cylinder = ModelEntity(mesh: cylinderMesh, materials: [material])
+        container.addChild(cylinder)
         
         // Spiral upward particles
         var particles = ParticleEmitterComponent()
@@ -288,14 +287,14 @@ struct ImmersiveView: View {
         return container
     }
     
-    // MARK: - Purple Pyramid (40-50s) - Electric particles
+    // MARK: - Purple Cone (40-50s) - Electric particles
     
-    private func createPurplePyramid() -> Entity {
+    private func createPurpleCone() -> Entity {
         let container = Entity()
-        container.name = "PurplePyramid"
+        container.name = "PurpleCone"
         
-        // Glowing purple pyramid (using cone as approximation)
-        let pyramidMesh = MeshResource.generateCone(height: 0.35, radius: 0.2)
+        // Glowing purple cone
+        let coneMesh = MeshResource.generateCone(height: 0.35, radius: 0.2)
         var material = PhysicallyBasedMaterial()
         material.baseColor = .init(tint: UIColor(red: 0.6, green: 0.1, blue: 0.9, alpha: 1.0))
         material.metallic = .init(floatLiteral: 0.8)
@@ -303,8 +302,8 @@ struct ImmersiveView: View {
         material.emissiveColor = .init(color: .init(red: 0.8, green: 0.3, blue: 1.0, alpha: 1))
         material.emissiveIntensity = 1.2
         
-        let pyramid = ModelEntity(mesh: pyramidMesh, materials: [material])
-        container.addChild(pyramid)
+        let cone = ModelEntity(mesh: coneMesh, materials: [material])
+        container.addChild(cone)
         
         // Electric crackling particles
         var particles = ParticleEmitterComponent()
