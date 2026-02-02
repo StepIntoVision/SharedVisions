@@ -20,8 +20,6 @@ targets:
       - Sources
     resources:
       - path: Resources
-        excludes:
-          - "*.braw"
     settings:
       base:
         INFOPLIST_KEY_CFBundleDisplayName: "Shared Visions"
