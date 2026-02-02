@@ -88,6 +88,22 @@ struct ImmersiveView: View {
             }
             
             // Update Purple Pyramid (40-50s): rotates + spirals inward
+            // EXAMPLE: Animation with Hold Phase
+            // ─────────────────────────────────────────────────────────────────
+            // This primitive demonstrates the "animate then hold" pattern:
+            //
+            //   40-50s: Animation plays (pyramidProgress: 0 → 1)
+            //   50-60s: Hold at final position (pyramidProgress locked at 1)
+            //
+            // During the hold phase:
+            //   - showPyramid remains true (object stays visible)
+            //   - pyramidHolding = true (signals we're in hold mode)
+            //   - pyramidProgress = 1.0 (locked at final position)
+            //   - Particles continue emitting (adds visual interest)
+            //
+            // This pattern is useful when you want viewers to have time
+            // to appreciate an object after it finishes animating.
+            // ─────────────────────────────────────────────────────────────────
             if let pyramid = pyramidEntity {
                 pyramid.isEnabled = videoModel.showPyramid
                 if videoModel.showPyramid {
@@ -99,6 +115,9 @@ struct ImmersiveView: View {
                     let y = 0.5 + progress * 1.0  // rise slightly
                     pyramid.position = SIMD3<Float>(x, y, z)
                     pyramid.orientation = simd_quatf(angle: progress * .pi * 8, axis: SIMD3<Float>(0, 1, 1).normalized)
+                    
+                    // During hold phase, particles keep emitting for visual interest
+                    // You could also reduce birthRate here for a "settling" effect
                 }
                 updateParticleEmission(for: pyramid, isPlaying: videoModel.isPlaying && videoModel.showPyramid)
             }

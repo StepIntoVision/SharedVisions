@@ -23,6 +23,10 @@ class VideoPlayerModel: ObservableObject {
     @Published var showPyramid: Bool = false
     @Published var pyramidProgress: Double = 0
     
+    // EXAMPLE: Hold state for pyramid after animation completes
+    // This demonstrates how to keep an object visible after its animation ends
+    @Published var pyramidHolding: Bool = false
+    
     private(set) var player: AVPlayer?
     private var timeObserver: Any?
     private var statusObserver: NSKeyValueObservation?
@@ -139,11 +143,33 @@ class VideoPlayerModel: ObservableObject {
         }
         
         // Pyramid: 40-50 seconds (purple, rotates + spirals in)
+        // EXAMPLE: Extended visibility with "hold" state
+        // ─────────────────────────────────────────────────────────────────
+        // Pattern: Animation Phase (40-50s) → Hold Phase (50-60s)
+        // 
+        // This demonstrates how to keep a 3D object visible after its
+        // animation completes. Useful for:
+        //   - Letting viewers examine an object that just animated in
+        //   - Creating dramatic pauses in a documentary
+        //   - Syncing with narration or music cues
+        //   - Transitioning smoothly to the next scene element
+        //
+        // The hold phase keeps pyramidProgress at 1.0 (final position)
+        // while pyramidHolding = true tells the view to maintain visibility
+        // ─────────────────────────────────────────────────────────────────
         if time >= 40 && time < 50 {
+            // Animation phase: 40-50 seconds
             showPyramid = true
+            pyramidHolding = false
             pyramidProgress = (time - 40) / 10.0
+        } else if time >= 50 && time < 60 {
+            // Hold phase: 50-60 seconds - object stays at final position
+            showPyramid = true
+            pyramidHolding = true
+            pyramidProgress = 1.0  // Lock at final animated position
         } else {
             showPyramid = false
+            pyramidHolding = false
             pyramidProgress = 0
         }
     }

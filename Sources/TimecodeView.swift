@@ -120,6 +120,10 @@ struct TimecodeView: View {
         } else if videoModel.showTorus {
             return ("Green Torus", .green)
         } else if videoModel.showPyramid {
+            // Show different label during hold phase
+            if videoModel.pyramidHolding {
+                return ("Purple Pyramid (Hold)", .purple)
+            }
             return ("Purple Pyramid", .purple)
         }
         return nil
