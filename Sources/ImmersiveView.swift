@@ -68,6 +68,9 @@ struct ImmersiveView: View {
         // Flip inside-out so video displays on inner surface
         skyboxEntity.scale = SIMD3<Float>(x: -1, y: 1, z: 1)
         
+        // Rotate 90 degrees to correct video orientation on device
+        skyboxEntity.orientation = simd_quatf(angle: .pi / 2, axis: SIMD3<Float>(0, 1, 0))
+        
         return skyboxEntity
     }
     
