@@ -19,7 +19,6 @@ struct ContentView: View {
         }
         .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.ultraThinMaterial)
     }
     
     // MARK: - Main Documentary Section
@@ -39,13 +38,7 @@ struct ContentView: View {
             // Hero image placeholder
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(
-                        LinearGradient(
-                            colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                    .fill(.regularMaterial)
                     .frame(height: 280)
                 
                 VStack(spacing: 16) {
@@ -70,8 +63,8 @@ struct ContentView: View {
                     .fontWeight(.bold)
                 
                 HStack(spacing: 16) {
-                    Label("1h 35m", systemImage: "clock")
-                    Label("2024", systemImage: "calendar")
+                    Label("1h 15m", systemImage: "clock")
+                    Label("2026", systemImage: "calendar")
                     Label("Immersive", systemImage: "visionpro")
                 }
                 .font(.subheadline)
@@ -143,17 +136,17 @@ struct ContentView: View {
             ScrollView {
                 VStack(spacing: 12) {
                     ProfileCard(
-                        name: "Sarah Chen",
+                        name: "Mike Bundy",
                         role: "Lead Developer",
-                        company: "Spatial Labs",
+                        company: "SideResult Software",
                         imageName: "person.crop.circle.fill",
                         color: .blue
                     )
                     
                     ProfileCard(
-                        name: "Marcus Webb",
-                        role: "Creative Director", 
-                        company: "Immersive Studios",
+                        name: "Joseph Simpson",
+                        role: "Community Director",
+                        company: "Step Into Vision",
                         imageName: "person.crop.circle.fill",
                         color: .purple
                     )
@@ -232,14 +225,8 @@ struct ProfileCard: View {
                 .foregroundStyle(.secondary)
         }
         .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(color.opacity(0.3), lineWidth: 1)
-        )
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+        .hoverEffect()
     }
 }
 
