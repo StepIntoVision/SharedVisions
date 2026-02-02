@@ -9,9 +9,19 @@ class VideoPlayerModel: ObservableObject {
     @Published var isPlaying: Bool = false
     @Published var isLoaded: Bool = false
     
-    // Orb state (visible between 10-20 seconds)
+    // Animated primitives state (each visible for 10 seconds)
+    // Orb: 10-20s, Cube: 20-30s, Torus: 30-40s, Pyramid: 40-50s
     @Published var showOrb: Bool = false
-    @Published var orbProgress: Double = 0 // 0 to 1 over 10 seconds
+    @Published var orbProgress: Double = 0
+    
+    @Published var showCube: Bool = false
+    @Published var cubeProgress: Double = 0
+    
+    @Published var showTorus: Bool = false
+    @Published var torusProgress: Double = 0
+    
+    @Published var showPyramid: Bool = false
+    @Published var pyramidProgress: Double = 0
     
     private(set) var player: AVPlayer?
     private var timeObserver: Any?
@@ -101,13 +111,40 @@ class VideoPlayerModel: ObservableObject {
     private func updateTime(_ time: Double) {
         currentTime = time
         
-        // Orb logic: show between 10-20 seconds
+        // Orb: 10-20 seconds (red metallic, rises + approaches)
         if time >= 10 && time < 20 {
             showOrb = true
-            orbProgress = (time - 10) / 10.0 // 0 to 1 over 10 seconds
+            orbProgress = (time - 10) / 10.0
         } else {
             showOrb = false
             orbProgress = 0
+        }
+        
+        // Cube: 20-30 seconds (blue, spins + orbits)
+        if time >= 20 && time < 30 {
+            showCube = true
+            cubeProgress = (time - 20) / 10.0
+        } else {
+            showCube = false
+            cubeProgress = 0
+        }
+        
+        // Torus: 30-40 seconds (green, pulses + bounces)
+        if time >= 30 && time < 40 {
+            showTorus = true
+            torusProgress = (time - 30) / 10.0
+        } else {
+            showTorus = false
+            torusProgress = 0
+        }
+        
+        // Pyramid: 40-50 seconds (purple, rotates + spirals in)
+        if time >= 40 && time < 50 {
+            showPyramid = true
+            pyramidProgress = (time - 40) / 10.0
+        } else {
+            showPyramid = false
+            pyramidProgress = 0
         }
     }
     
