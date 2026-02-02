@@ -29,5 +29,3 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.shellcorp.sharedvisions
     entitlements:
       path: Resources/SharedVisions.entitlements
-      properties:
-        com.apple.developer.spatial-persona.allow-mixed-participants: true
