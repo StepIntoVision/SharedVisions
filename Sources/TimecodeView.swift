@@ -84,8 +84,10 @@ struct TimecodeView: View {
                     videoModel.pause()
                     videoModel.seek(to: 0)
                     await dismissImmersiveSpace()
-                    dismissWindow(id: "timecode")
                     openWindow(id: "main")
+                    // Small delay before dismissing self to ensure main window opens first
+                    try? await Task.sleep(for: .milliseconds(100))
+                    dismissWindow(id: "timecode")
                 }
             } label: {
                 HStack(spacing: 8) {
