@@ -87,26 +87,27 @@ struct ImmersiveView: View {
                 updateParticleEmission(for: torus, isPlaying: videoModel.isPlaying && videoModel.showTorus)
             }
             
-            // Update Purple Pyramid (40-50s): rotates + spirals inward
-            // EXAMPLE: Animation with Hold Phase
+            // Update Purple Pyramid - Multi-phase animation example
             // ─────────────────────────────────────────────────────────────────
-            // This primitive demonstrates the "animate then hold" pattern:
+            // EXAMPLE: Chained Animation Phases
             //
-            //   40-50s: Animation plays (pyramidProgress: 0 → 1)
-            //   50-60s: Hold at final position (pyramidProgress locked at 1)
+            //   Phase 1 (40-50s): Primary animation - spiral inward
+            //   Phase 2 (50-60s): Hold - stay at final position
+            //   Phase 3 (60-70s): Secondary animation - rotate around X axis
             //
-            // During the hold phase:
-            //   - showPyramid remains true (object stays visible)
-            //   - pyramidHolding = true (signals we're in hold mode)
-            //   - pyramidProgress = 1.0 (locked at final position)
-            //   - Particles continue emitting (adds visual interest)
+            // This demonstrates how to build complex choreographed sequences
+            // by chaining multiple animation phases. Each phase can have:
+            //   - Its own progress value (0→1)
+            //   - Different animation curves/easing
+            //   - Different particle behaviors
             //
-            // This pattern is useful when you want viewers to have time
-            // to appreciate an object after it finishes animating.
+            // The position is calculated from pyramidProgress (phase 1),
+            // then orientation is modified by pyramidSecondaryProgress (phase 3).
             // ─────────────────────────────────────────────────────────────────
             if let pyramid = pyramidEntity {
                 pyramid.isEnabled = videoModel.showPyramid
                 if videoModel.showPyramid {
+                    // Phase 1 position: spiral inward (locked at final during phases 2 & 3)
                     let progress = Float(videoModel.pyramidProgress)
                     let spiralAngle = progress * .pi * 6  // 3 rotations
                     let radius = 3.0 - progress * 2.5  // spiral in from 3 to 0.5
@@ -114,10 +115,18 @@ struct ImmersiveView: View {
                     let z = -cos(spiralAngle) * radius
                     let y = 0.5 + progress * 1.0  // rise slightly
                     pyramid.position = SIMD3<Float>(x, y, z)
-                    pyramid.orientation = simd_quatf(angle: progress * .pi * 8, axis: SIMD3<Float>(0, 1, 1).normalized)
                     
-                    // During hold phase, particles keep emitting for visual interest
-                    // You could also reduce birthRate here for a "settling" effect
+                    // Calculate orientation based on current phase
+                    if videoModel.pyramidSecondaryAnimation {
+                        // Phase 3: Rotate around X axis while maintaining Y position
+                        // This creates a "tumbling forward" effect
+                        let secondaryProgress = Float(videoModel.pyramidSecondaryProgress)
+                        let xRotation = secondaryProgress * .pi * 4  // 2 full rotations around X
+                        pyramid.orientation = simd_quatf(angle: xRotation, axis: SIMD3<Float>(1, 0, 0))
+                    } else {
+                        // Phase 1 & 2: Original spiral rotation
+                        pyramid.orientation = simd_quatf(angle: progress * .pi * 8, axis: SIMD3<Float>(0, 1, 1).normalized)
+                    }
                 }
                 updateParticleEmission(for: pyramid, isPlaying: videoModel.isPlaying && videoModel.showPyramid)
             }

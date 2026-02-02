@@ -23,9 +23,11 @@ class VideoPlayerModel: ObservableObject {
     @Published var showPyramid: Bool = false
     @Published var pyramidProgress: Double = 0
     
-    // EXAMPLE: Hold state for pyramid after animation completes
-    // This demonstrates how to keep an object visible after its animation ends
+    // EXAMPLE: Multi-phase animation states for pyramid
+    // This demonstrates how to chain: Animation → Hold → Secondary Animation
     @Published var pyramidHolding: Bool = false
+    @Published var pyramidSecondaryAnimation: Bool = false
+    @Published var pyramidSecondaryProgress: Double = 0
     
     private(set) var player: AVPlayer?
     private var timeObserver: Any?
@@ -142,35 +144,51 @@ class VideoPlayerModel: ObservableObject {
             torusProgress = 0
         }
         
-        // Pyramid: 40-50 seconds (purple, rotates + spirals in)
-        // EXAMPLE: Extended visibility with "hold" state
+        // Pyramid: Multi-phase animation example
         // ─────────────────────────────────────────────────────────────────
-        // Pattern: Animation Phase (40-50s) → Hold Phase (50-60s)
+        // EXAMPLE: Chained Animation Phases
         // 
-        // This demonstrates how to keep a 3D object visible after its
-        // animation completes. Useful for:
-        //   - Letting viewers examine an object that just animated in
-        //   - Creating dramatic pauses in a documentary
-        //   - Syncing with narration or music cues
-        //   - Transitioning smoothly to the next scene element
+        // Pattern: Primary Animation → Hold → Secondary Animation
+        //   40-50s: Primary animation (spiral inward)
+        //   50-60s: Hold at final position (dramatic pause)
+        //   60-70s: Secondary animation (rotate around X axis)
+        // 
+        // This demonstrates how to create complex, multi-phase object
+        // behaviors that are common in documentary/cinematic content:
+        //   - Object enters scene (primary animation)
+        //   - Pause for viewer to absorb (hold phase)
+        //   - Additional movement for visual interest (secondary animation)
         //
-        // The hold phase keeps pyramidProgress at 1.0 (final position)
-        // while pyramidHolding = true tells the view to maintain visibility
+        // Each phase has its own progress value (0→1) so animations
+        // can be independently timed and eased.
         // ─────────────────────────────────────────────────────────────────
         if time >= 40 && time < 50 {
-            // Animation phase: 40-50 seconds
+            // Phase 1: Primary animation (spiral inward)
             showPyramid = true
             pyramidHolding = false
+            pyramidSecondaryAnimation = false
             pyramidProgress = (time - 40) / 10.0
+            pyramidSecondaryProgress = 0
         } else if time >= 50 && time < 60 {
-            // Hold phase: 50-60 seconds - object stays at final position
+            // Phase 2: Hold at final position
             showPyramid = true
             pyramidHolding = true
-            pyramidProgress = 1.0  // Lock at final animated position
+            pyramidSecondaryAnimation = false
+            pyramidProgress = 1.0
+            pyramidSecondaryProgress = 0
+        } else if time >= 60 && time < 70 {
+            // Phase 3: Secondary animation (X-axis rotation)
+            showPyramid = true
+            pyramidHolding = false
+            pyramidSecondaryAnimation = true
+            pyramidProgress = 1.0  // Keep at final primary position
+            pyramidSecondaryProgress = (time - 60) / 10.0
         } else {
             showPyramid = false
             pyramidHolding = false
+            pyramidSecondaryAnimation = false
             pyramidProgress = 0
+            pyramidSecondaryProgress = 0
         }
     }
     
