@@ -13,6 +13,9 @@ DerivedData/
 *.mov
 *.mp4
 
+# Resources folder (large media assets)
+Resources/
+
 # macOS
 .DS_Store
 .AppleDouble
