@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,10 +16,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08614FCDAD3E5917F0FA76B9 /* SharedVisions.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SharedVisions.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08614FCDAD3E5917F0FA76B9 /* SharedVisions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharedVisions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E6417179DBFAD3EFA6640E8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		448DF9E3062A8EF46889DE62 /* TimecodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimecodeView.swift; sourceTree = "<group>"; };
-		81F83617F3743D184C83FF6A /* test.aivu */ = {isa = PBXFileReference; path = test.aivu; sourceTree = "<group>"; };
+		81F83617F3743D184C83FF6A /* test.aivu */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.aivu; sourceTree = "<group>"; };
 		866C1AC5BE4FC25AFBE5725C /* SharedVisionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedVisionsApp.swift; sourceTree = "<group>"; };
 		BC9465D5054CC9FFBB7E074B /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
 		EB000A1C7360330BB74F74A9 /* VideoPlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerModel.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					A5FAC55F4CB378F61E8A3659 = {
 						DevelopmentTeam = 9YZ66NTGZG;
@@ -108,7 +108,6 @@
 			);
 			mainGroup = 6489F73186A08CACD8F7A28A;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -159,6 +158,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shellcorp.sharedvisions;
 				SDKROOT = xros;
 				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
@@ -177,6 +177,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shellcorp.sharedvisions;
 				SDKROOT = xros;
 				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};
@@ -218,6 +219,7 @@
 				DEVELOPMENT_TEAM = 9YZ66NTGZG;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -231,6 +233,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = SharedVisions;
 				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
@@ -276,6 +279,7 @@
 				DEVELOPMENT_TEAM = 9YZ66NTGZG;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -296,6 +300,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = SharedVisions;
 				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
