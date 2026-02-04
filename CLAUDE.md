@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SharedVisions is a visionOS 2.0 application for Apple Vision Pro that provides immersive video experiences with synchronized 3D animated objects and particle effects. The app plays 360° video as a skybox while overlaying time-triggered RealityKit primitives with particle systems.
+SharedVisions is a visionOS 26 application for Apple Vision Pro that provides immersive video experiences with synchronized 3D animated objects and particle effects. The app plays 360° video as a skybox while overlaying time-triggered RealityKit primitives with particle systems.
 
 ## Build Commands
 
@@ -19,7 +19,7 @@ xcodebuild -scheme SharedVisions -configuration Debug -destination 'platform=vis
 open SharedVisions.xcodeproj
 ```
 
-Requirements: Xcode 16.0+, visionOS 2.0 SDK, Swift 6.0
+Requirements: Xcode 16.0+, visionOS 26 SDK, Swift 6.0
 
 ## Architecture
 

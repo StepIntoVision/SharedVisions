@@ -1,6 +1,6 @@
 # SharedVisions
 
-A visionOS 2.0 application for Apple Vision Pro that delivers immersive video experiences with synchronized 3D animated objects and particle effects.
+A visionOS 26 application for Apple Vision Pro that delivers immersive video experiences with synchronized 3D animated objects and particle effects.
 
 ## Overview
 
@@ -9,7 +9,7 @@ SharedVisions plays 360° video as a skybox while overlaying time-triggered Real
 ## Requirements
 
 - Xcode 16.0+
-- visionOS 2.0 SDK
+- visionOS 26 SDK
 - Swift 6.0
 - Apple Vision Pro hardware or simulator
 

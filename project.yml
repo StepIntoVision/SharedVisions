@@ -2,7 +2,7 @@ name: SharedVisions
 options:
   bundleIdPrefix: com.shellcorp
   deploymentTarget:
-    visionOS: "2.0"
+    visionOS: "26"
   xcodeVersion: "16.0"
 
 settings:
