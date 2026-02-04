@@ -48,7 +48,9 @@ A single `VideoPlayerModel` (ObservableObject) manages:
 - Animation states with visibility flags and progress values (0→1)
 - Window lifecycle coordination
 
-## Video Sources
+## Video Setup
+
+Add your own immersive video file named `test.aivu` to the `Resources/` folder. No video is packaged with the project due to size considerations.
 
 The app loads video in priority order:
 1. Bundle resources (test.aivu, .mov, .mp4, .m4v)
